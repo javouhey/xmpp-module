@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID2" version="2.4"
+    xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>IM</display-name>
+
+    <listener>
+      <listener-class>
+          com.raverun.im.bootstrap.GuiceServletContextListener
+      </listener-class>
+    </listener>
+
+    <!-- Listener that disconnects stray IMSessions -->
+    <listener>
+      <listener-class>
+        com.raverun.im.interfaces.rest.IMSessionAttributeListener
+      </listener-class>
+    </listener>
+
+    <servlet>
+        <description>Controller servlet for all IM requests</description>
+        <servlet-name>controller</servlet-name>
+        <servlet-class>com.raverun.im.interfaces.rest.IMDispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>controller</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+
+    <session-config>
+        <session-timeout>2</session-timeout>
+    </session-config>
+
+    <resource-ref>
+        <description>MySql datasource</description>
+        <res-ref-name>jdbc/imdb</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Unshareable</res-sharing-scope>
+    </resource-ref>
+
+</web-app>
